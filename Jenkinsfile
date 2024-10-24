@@ -1,3 +1,4 @@
+/*
 pipeline {
     agent any
  
@@ -14,8 +15,51 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                echo 'deploying....The Beatles'
+                echo 'No Deployment for now. Sorry!!'
             }
         }
     }
+}
+*/
+
+pipeline {
+   agent any
+
+   tools {
+      go 'golang'
+   }
+   environment {
+       DOCKER_IMAGE = 'hello-go'
+   }
+
+
+   stages{
+       stage('Run Docker Build'){
+           steps{
+               script{
+                    echo "starting docker build"
+                    sh "docker build . -t hello-go:latest"
+                    echo "docker built successfully"
+               }
+           }
+       }
+       stage('push to docker hub'){
+           steps{
+               echo "===No docker hub push for now==="
+            //    script{
+            //        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub'){
+            //            docker.image("${DOCKER_IMAGE}:${env.BUILD_ID}").push()
+            //        }
+            //    }
+               echo "done"
+           }
+       }
+   }
+
+
+   post {
+       always{
+           cleanWs()
+       }
+   }
 }
