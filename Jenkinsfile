@@ -42,8 +42,19 @@ pipeline {
                }
            }
        }
+       stage('Print docker image details'){
+        steps{
+            script{
+                sh 'echo "=========================================="'
+                sh 'docker inspect hello-go:latest'
+                sh 'echo "=========================================="'
+            }
+
+        }
+       }
        stage('push to docker hub'){
            steps{
+            script{
                echo "===No docker hub push for now==="
             //    script{
             //        docker.withRegistry('https://index.docker.io/v1/', 'dockerhub'){
@@ -51,7 +62,17 @@ pipeline {
             //        }
             //    }
                echo "done"
+            }
            }
+       }
+       stage('remove built docker image'){
+        steps{
+            script{
+                echo "===REMOVING DOCKER IMAGE==="
+                sh "docker rmi hello-go:latest"
+                echo "===DONE CLEANING UP==="
+            }
+        }
        }
    }
 
