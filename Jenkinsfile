@@ -26,7 +26,7 @@ pipeline {
    agent any
 
    tools {
-      go 'golang'
+   go 'go' // The installed go binary name on the server
    }
    environment {
        DOCKER_IMAGE = 'hello-go'
